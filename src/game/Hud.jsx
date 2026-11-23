@@ -135,6 +135,7 @@ function Title() {
           EKO <span>STREETS</span>
         </h1>
         <p className="tagline">Lagos, Nigeria. Twenty million people. One city.</p>
+        <p className="creator-credit">CREATED BY <strong>CJ LIMITED</strong></p>
         <GenderPicker />
         <div className="sign-in">
           <label className="name-field">
@@ -360,6 +361,7 @@ export default function Hud() {
 
   return (
     <div className={`hud ${isTouch ? 'is-touch' : ''}`}>
+      <div className="in-game-credit">EKO STREETS <span>· BY CJ LIMITED</span></div>
       {game.phase === 'intro' && !game.dialogue && <IntroCaptions />}
 
       {playing && (
