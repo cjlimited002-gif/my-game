@@ -1468,3 +1468,28 @@
   color: #6b7280;
   letter-spacing: 0.12em;
 }
+
+
+/* Compact landscape layout for phones: preserve gameplay space and safe areas. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .move-zone,
+  .look-zone { top: 8%; }
+  .touch-actions {
+    right: max(12px, env(safe-area-inset-right));
+    bottom: max(8px, env(safe-area-inset-bottom));
+    gap: 8px;
+  }
+  .touch-btn { width: 46px; height: 46px; }
+  .touch-btn.big { width: 66px; height: 66px; }
+  .touch-btn.big .icon { font-size: 28px; }
+  .touch-side {
+    right: max(8px, env(safe-area-inset-right));
+    top: 10%;
+    gap: 7px;
+  }
+  .sq-btn { width: 40px; height: 40px; font-size: 19px; }
+  .action-caption { bottom: 78px; }
+  .hud.is-touch .objective { top: calc(88px + env(safe-area-inset-top)); }
+  .hud.is-touch .speed { top: calc(88px + env(safe-area-inset-top)); }
+  .hud.is-touch .online { top: calc(72px + env(safe-area-inset-top)); }
+}
