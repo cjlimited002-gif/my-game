@@ -94,24 +94,33 @@ function MoveZone({ hint }) {
 
 function LookZone() {
   const last = useRef(null)
+  const release = () => { last.current = null }
+  useEffect(() => {
+    window.addEventListener('blur', release)
+    return () => window.removeEventListener('blur', release)
+  }, [])
   return (
     <div
       className="look-zone"
       onPointerDown={(e) => {
+        e.preventDefault()
+        if (last.current) return
         e.currentTarget.setPointerCapture(e.pointerId)
         last.current = { id: e.pointerId, x: e.clientX, y: e.clientY }
       }}
       onPointerMove={(e) => {
         const l = last.current
         if (!l || l.id !== e.pointerId) return
-        world.cameraYaw -= (e.clientX - l.x) * 0.006
-        world.cameraPitch = Math.min(1.2, Math.max(-0.1, world.cameraPitch + (e.clientY - l.y) * 0.005))
+        // Slightly quicker mobile look response, with a softer vertical rate.
+        world.cameraYaw -= (e.clientX - l.x) * 0.007
+        world.cameraPitch = Math.min(1.2, Math.max(-0.1, world.cameraPitch + (e.clientY - l.y) * 0.0055))
         world.lastMouseMove = performance.now()
         l.x = e.clientX
         l.y = e.clientY
       }}
-      onPointerUp={() => (last.current = null)}
-      onPointerCancel={() => (last.current = null)}
+      onPointerUp={(e) => last.current?.id === e.pointerId && release()}
+      onPointerCancel={(e) => last.current?.id === e.pointerId && release()}
+      onLostPointerCapture={(e) => last.current?.id === e.pointerId && release()}
     />
   )
 }
