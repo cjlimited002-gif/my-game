@@ -71,13 +71,16 @@ function MoveZone({ hint }) {
     <div
       className="move-zone"
       onPointerDown={(e) => {
+        e.preventDefault()
+        if (pointer.current) return
         e.currentTarget.setPointerCapture(e.pointerId)
         pointer.current = { id: e.pointerId, cx: e.clientX, cy: e.clientY }
         update(e)
       }}
       onPointerMove={(e) => pointer.current?.id === e.pointerId && update(e)}
-      onPointerUp={release}
-      onPointerCancel={release}
+      onPointerUp={(e) => pointer.current?.id === e.pointerId && release()}
+      onPointerCancel={(e) => pointer.current?.id === e.pointerId && release()}
+      onLostPointerCapture={(e) => pointer.current?.id === e.pointerId && release()}
     >
       {knob && (
         <div className="stick" style={{ left: knob.cx, top: knob.cy }}>
