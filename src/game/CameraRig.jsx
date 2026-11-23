@@ -83,7 +83,7 @@ export default function CameraRig() {
     const idle = performance.now() - world.lastMouseMove
     if ((driving && idle > 1200) || (!driving && idle > 4000 && game.phase === 'playing')) {
       const behind = world.heading + Math.PI
-      const rate = driving ? 2.5 : 0.6
+      const rate = driving ? 2.5 : 0.9
       world.cameraYaw += wrapAngle(behind - world.cameraYaw) * Math.min(1, dt * rate)
       world.cameraPitch += ((driving ? 0.3 : 0.35) - world.cameraPitch) * Math.min(1, dt * 2)
     }
