@@ -14,10 +14,10 @@ import { hasPattern, lookFromOutfit, playerFace } from './wardrobe'
 import { useGame, world } from './state'
 
 // Like in Messenger, the everyday pace is a jog; Shift is a flat-out sprint.
-const JOG = 6.5
-const SPRINT = 9.5
+const JOG = 4.5
+const SPRINT = 7
 const JUMP = 6
-const SWIM = 3.2 // m/s in the water (Shift: a bit faster)
+const SWIM = 2.4 // m/s in the water (Shift: a bit faster)
 const FLOAT_Y = WATER_Y - 0.55 // capsule center while swimming: head above the water
 const FOOT_OFFSET = 0.9 // capsule center to the soles of the feet
 
