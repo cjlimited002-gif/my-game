@@ -222,6 +222,9 @@ export function computePose(p, s) {
   p.sxz = 1
   p.lean = running ? (s.sprint ? 0.26 : 0.18) : s.moving ? 0.05 : 0
   p.twist = s.moving ? 0.1 * sn * gait : 0
+  // A small counter-lean makes sharp turns feel planted; at rest the body
+  // shifts its weight subtly instead of holding a perfectly frozen pose.
+  p.roll = s.moving ? -(s.turn ?? 0) * 0.16 : Math.sin(s.t * 0.7) * 0.012
   p.headNod = s.moving ? -p.lean * 0.5 + cs * 0.02 : Math.sin(s.t * 0.5) * 0.03
   p.headTilt = s.moving ? sn * 0.03 : Math.sin(s.t * 0.7) * 0.04
   if (s.punch >= 0 && s.punch <= 1) {
@@ -261,7 +264,7 @@ export function makeJoints() {
 export function jointMatrices(p, J) {
   J.root.compose(_v.set(0, p.bob, 0), _q.identity(), _s.set(p.sxz, p.sy, p.sxz))
   T(J.chest.copy(J.root), ...WAIST)
-  R(J.chest, p.lean, p.twist, 0, 'YXZ')
+  R(J.chest, p.lean, p.twist, p.roll ?? 0, 'YXZ')
   T(J.chest, -WAIST[0], -WAIST[1], -WAIST[2])
   R(T(J.head.copy(J.chest), ...HEAD_PIVOT), p.headNod, 0, p.headTilt)
   for (const [side, x] of [['L', 1], ['R', -1]]) {
