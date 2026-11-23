@@ -1493,3 +1493,27 @@
   .hud.is-touch .speed { top: calc(88px + env(safe-area-inset-top)); }
   .hud.is-touch .online { top: calc(72px + env(safe-area-inset-top)); }
 }
+
+
+.creator-credit {
+  margin: 10px 0 0;
+  font: 12px/1.4 Arial, Helvetica, sans-serif;
+  letter-spacing: 2px;
+  color: #f5f0e1;
+  text-shadow: 2px 2px 0 #000;
+}
+.creator-credit strong { color: #f2b705; }
+.in-game-credit {
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  z-index: 2;
+  font: bold 12px/1.3 Arial, Helvetica, sans-serif;
+  letter-spacing: 1.5px;
+  color: #f2b705;
+  text-shadow: 2px 2px 0 #000;
+}
+.in-game-credit span { color: #fff; }
+@media (max-width: 700px) {
+  .in-game-credit { top: 8px; left: 12px; font-size: 10px; }
+}
