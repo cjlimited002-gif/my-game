@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
     <title>Eko Streets</title>
+    <meta name="theme-color" content="#1a1410" />
+    <meta name="description" content="Explore the streets of Lagos in Eko Streets." />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/eko-streets-icon.svg" type="image/svg+xml" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <style>
       html,
       body {
@@ -71,6 +78,15 @@
   <body>
     <div id="root"></div>
     <div id="boot-error"></div>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/sw.js').catch(function (error) {
+            console.warn('Eko Streets offline support could not start:', error)
+          })
+        })
+      }
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
