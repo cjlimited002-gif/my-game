@@ -121,9 +121,12 @@ export default function Player() {
       a.facing = world.forceFacing
       world.forceFacing = undefined
     }
+    let turnLean = 0
     if (moving) {
       const target = Math.atan2(move.x, move.z)
       const diff = Math.atan2(Math.sin(target - a.facing), Math.cos(target - a.facing))
+      // Lean gently into direction changes instead of rotating like a rigid toy.
+      turnLean = Math.max(-1, Math.min(1, diff * 0.8))
       a.facing += diff * Math.min(1, dt * 12)
     }
     visual.current.rotation.y = a.facing
@@ -137,6 +140,7 @@ export default function Player() {
     }
     poseIn.phase = a.phase
     poseIn.t = a.time
+    poseIn.turn = turnLean
     poseIn.moving = moving && (grounded || swimming)
     poseIn.run = true // he jogs everywhere
     poseIn.sprint = !!run
