@@ -19,8 +19,8 @@ import { toonRamp } from './materials'
 
 // Arcade handling: we drive the body's velocity directly instead of simulating
 // tires. Easy to tune and stable, which matters more than realism for a SA feel.
-const BRAKE = 24
-const ROLLING_DRAG = 3.2
+const BRAKE = 32
+const ROLLING_DRAG = 4
 const MAX_REVERSE = 12
 const GRIP = 12 // how fast sideways sliding is killed
 const DRIFT_GRIP = 1.5 // handbrake grip
@@ -166,12 +166,12 @@ export default function Car() {
     if (throttle !== 0) {
       const braking = Math.abs(speed) > 0.5 && Math.sign(speed) !== Math.sign(throttle)
       const accel = braking ? BRAKE : throttle > 0 ? def.accel : def.accel * 0.8
-      speed += throttle * accel * 0.72 * dt
+      speed += throttle * accel * dt
     } else {
       speed -= Math.sign(speed) * Math.min(Math.abs(speed), ROLLING_DRAG * dt)
     }
     if (keys.jump) speed -= Math.sign(speed) * Math.min(Math.abs(speed), 18 * dt)
-    speed = Math.max(-MAX_REVERSE * 0.8, Math.min(def.maxSpeed * 0.72, speed))
+    speed = Math.max(-MAX_REVERSE, Math.min(def.maxSpeed, speed))
 
     const grip = Math.exp(-(keys.jump ? DRIFT_GRIP : GRIP) * dt)
     latX *= grip
