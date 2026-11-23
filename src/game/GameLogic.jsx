@@ -32,7 +32,7 @@ import { DEFAULT_CAR, garageSpot, owns, propertyNear, storeCar, takeCar, updateB
 import { deliverOrder } from './chopshop'
 import { lastma, startLastma, updateLastma } from './lastma'
 
-const ENTER_DISTANCE = 4.5
+const ENTER_DISTANCE = 5.2
 const TALK_DISTANCE = 2.6
 const q = new Quaternion()
 const up = new Vector3(0, 1, 0)
