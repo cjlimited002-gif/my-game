@@ -125,7 +125,7 @@ export default function DayNight() {
     cam.updateProjectionMatrix()
     light.shadow.mapSize.set(SHADOW_SIZE, SHADOW_SIZE)
     light.shadow.bias = -0.00025
-    light.shadow.radius = 0.6 // tight filtering: crisp edges (see stylize.js)
+    light.shadow.radius = 1.8 // softer, more natural GTA-inspired shadow edges
     light.shadow.normalBias = 0.04
   }, [target])
 
@@ -157,14 +157,14 @@ export default function DayNight() {
       cloud.value.lerp(RAIN_CLOUD, wet * 0.9)
     }
     fog.current.color.copy(horizon.value)
-    fog.current.near = 260 - 200 * wet
-    fog.current.far = 600 - 320 * wet
+    fog.current.near = 180 - 120 * wet
+    fog.current.far = 520 - 260 * wet
     sky.current.position.copy(camera.position)
 
     // Flat cool fill; its brightness sets how dark shadows are.
     fill.current.color.lerpColors(FILL_NIGHT, FILL_DAY, day)
     fill.current.groundColor.copy(fill.current.color)
-    fill.current.intensity = 3.3 - 0.3 * day - 0.5 * wet + weather.flash * 5 // lightning
+    fill.current.intensity = 2.6 - 0.25 * day - 0.4 * wet + weather.flash * 5 // lightning, less flat fill for more depth
 
     // Sun arcs east to west and warms near the horizon; the moon stands in at night.
     const angle = ((hour - 6) / 12) * Math.PI
