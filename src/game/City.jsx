@@ -181,9 +181,9 @@ export default function City() {
         colors={() => '#dcca94'}
       />
       <Instances items={[beachMainland, beachIsland]} castShadow={false} transform={solidBox} colors={() => '#e2cf98'} />
-      <Instances items={lands} castShadow={false} transform={solidBox} colors={() => '#3d3d42'} />
-      <Instances items={decks} transform={solidBox} colors={() => '#45454a'} />
-      <Instances items={barriers} transform={solidBox} colors={() => '#e6e2d8'} />
+      <Instances items={lands} castShadow={false} transform={solidBox} colors={() => '#34363b'} />
+      <Instances items={decks} transform={solidBox} colors={() => '#383a3f'} />
+      <Instances items={barriers} transform={solidBox} colors={() => '#bfc2c4'} />
       <Instances items={pillars} transform={solidBox} colors={() => '#b9b4aa'} />
       <Instances items={quays} transform={solidBox} colors={() => '#cfc9bd'} />
 
