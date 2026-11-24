@@ -336,3 +336,24 @@ export default function Pedestrians() {
     </group>
   )
 }
+
+
+// Ambient pedestrian dialogue using the device's built-in speech synthesis.
+function StreetChatter() {
+  const timer = useRef(8)
+  useFrame((_, dt) => {
+    timer.current -= dt
+    if (timer.current > 0 || typeof window === 'undefined' || !window.speechSynthesis || window.speechSynthesis.speaking) return
+    const body = world.player
+    if (!body) { timer.current = 3; return }
+    const p = body.translation()
+    const nearby = npcs.filter(n => n.x !== undefined && !(n.down > 0) && Math.hypot(n.x - p.x, n.z - p.z) < 12)
+    if (!nearby.length) { timer.current = 4; return }
+    const lines = ['Oga, how far?','Abeg, make you no block road.','Lagos no dey sleep o!','You dey alright?','Wahala no dey finish for this town.','Abeg watch where you dey go.','Na today be today!','My brother, take am easy.']
+    const u = new SpeechSynthesisUtterance(lines[Math.floor(Math.random() * lines.length)])
+    u.lang = 'en-NG'; u.rate = 0.95; u.pitch = 1; u.volume = 0.65
+    window.speechSynthesis.speak(u)
+    timer.current = 14 + Math.random() * 12
+  })
+  return null
+}
