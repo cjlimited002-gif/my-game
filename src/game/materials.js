@@ -1,9 +1,8 @@
 import { DataTexture, MeshBasicMaterial, MeshToonMaterial, NearestFilter, RedFormat } from 'three'
 
-// Two-tone cel shading: surfaces are either lit or in shadow, with a hard
-// edge just past side-on (the first three of five steps are dark). The
-// shadow tone comes from a flat, cool fill light rather than going grey.
-const ramp = new DataTexture(new Uint8Array([0, 0, 0, 255, 255]), 5, 1, RedFormat)
+// Five-step cel shading: a broader tonal range helps surfaces retain depth
+// while keeping the game's illustrated identity.
+const ramp = new DataTexture(new Uint8Array([28, 72, 128, 190, 255]), 5, 1, RedFormat)
 ramp.magFilter = ramp.minFilter = NearestFilter
 ramp.generateMipmaps = false
 ramp.needsUpdate = true
