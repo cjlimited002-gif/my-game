@@ -54,8 +54,8 @@ toon.fragmentShader = toon.fragmentShader
     // as quick pencil marks rather than a printed pattern.
     float dash = fract(sin(dot(vec2(floor(across), floor(along * 0.8)), vec2(12.9898, 78.233))) * 43758.5453);
     float hatch = (1.0 - smoothstep(0.035, 0.07, stroke)) * step(0.45, dash);
-    float near = 1.0 - smoothstep(16.0, 40.0, length(vViewPosition));
-    lightSum *= 1.0 - hatch * inShadow * near * 0.16;
+    float near = 1.0 - smoothstep(10.0, 28.0, length(vViewPosition));
+    lightSum *= 1.0 - hatch * inShadow * near * 0.055;
 
     vec3 outgoingLight = lightSum + totalEmissiveRadiance;`,
   )
