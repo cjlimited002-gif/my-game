@@ -119,6 +119,10 @@ const roundTrunk = new CylinderGeometry(0.18, 0.26, 3.4, 6).translate(0, 1.7, 0)
 const bollardGeometry = new CylinderGeometry(0.22, 0.28, 0.85, 6).translate(0, 0.425, 0)
 const binGeometry = new CylinderGeometry(0.38, 0.42, 0.95, 8).translate(0, 0.475, 0)
 const bollards = city.lamps.filter((_, i) => i % 3 === 0)
+const vendorStands = city.lamps.filter((_, i) => i % 11 === 5)
+const standBaseGeometry = new BoxGeometry(1.8, 1.3, 1.1).translate(0, 0.65, 0)
+const standRoofGeometry = new BoxGeometry(2.1, 0.18, 1.4).translate(0, 1.55, 0)
+const standPostGeometry = new BoxGeometry(0.12, 1.5, 0.12).translate(0, 0.75, 0)
 const roadsideBins = city.lamps.filter((_, i) => i % 8 === 3)
 const LEAVES = ['#5fa64a', '#4e9a48', '#76b552', '#3f8a46']
 
@@ -338,6 +342,11 @@ export default function City() {
         transform={(o, l) => o.position.set(l.x + 1.5, 0, l.z + 1.5)}
         colors={() => '#c8a45c'}
       />
+
+      {/* Simple roadside vendor stalls */}
+      <Instances items={vendorStands} geometry={standBaseGeometry} castShadow={false} transform={(o, l) => o.position.set(l.x - 3, 0, l.z - 2)} colors={() => '#a87848'} />
+      <Instances items={vendorStands} geometry={standRoofGeometry} castShadow={false} transform={(o, l) => o.position.set(l.x - 3, 0, l.z - 2)} colors={(_, i) => ['#b83b32', '#e0b541', '#387c59'][i % 3]} />
+      <Instances items={vendorStands.flatMap(l => [0, 1, 2, 3].map((n) => ({ x: l.x - 3 + (n < 2 ? -0.82 : 0.82), z: l.z - 2 + (n % 2 ? 0.48 : -0.48) })))} geometry={standPostGeometry} castShadow={false} transform={(o, p) => o.position.set(p.x, 0, p.z)} colors={() => '#5a5148'} />
 
       {/* Compact roadside rubbish bins add street-level detail */}
       <Instances
