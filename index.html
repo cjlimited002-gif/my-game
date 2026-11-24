@@ -86,6 +86,30 @@
     </script>
   </head>
   <body>
+    <script>
+      // Prefer landscape for mobile play. Browsers may require a user gesture/fullscreen.
+      (function () {
+        async function tryLandscape() {
+          try {
+            if (screen.orientation && screen.orientation.lock) {
+              await screen.orientation.lock('landscape');
+            }
+          } catch (err) {
+            console.info('Landscape lock is not available until supported by browser:', err);
+          }
+        }
+        window.addEventListener('load', tryLandscape);
+        document.addEventListener('pointerdown', async function firstPlayGesture() {
+          try {
+            if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+              await document.documentElement.requestFullscreen();
+            }
+          } catch (err) {}
+          await tryLandscape();
+          document.removeEventListener('pointerdown', firstPlayGesture);
+        }, { once: true });
+      })();
+    </script>
     <div id="root"></div>
     <div id="boot-error"></div>
     <script>
