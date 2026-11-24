@@ -173,8 +173,7 @@ export default function Car() {
     if (keys.jump) speed -= Math.sign(speed) * Math.min(Math.abs(speed), 18 * dt)
     speed = Math.max(-MAX_REVERSE, Math.min(def.maxSpeed, speed))
 
-    const grip = Math.exp(-(keys.jump ? DRIFT_GRIP : GRIP) * dt)
-    latX *= grip
+    // A little more lateral movement at speed makes steering feel less locked-on\n    // and gives the car a weightier, more natural highway response.\n    const speedGrip = 1 - Math.min(0.32, Math.abs(speed) / 95)\n    const grip = Math.exp(-(keys.jump ? DRIFT_GRIP : GRIP * speedGrip) * dt)\n    latX *= grip
     latZ *= grip
     b.setLinvel({ x: fwd.x * speed + latX, y: v.y, z: fwd.z * speed + latZ }, true)
     lastVel.current.x = fwd.x * speed + latX
