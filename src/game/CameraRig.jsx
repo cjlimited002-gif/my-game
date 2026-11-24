@@ -74,16 +74,16 @@ export default function CameraRig() {
     }
     world.flightCam = null
     const driving = game.mode === 'car'
-    const distance = world.debugCamDistance ?? (driving ? 9 : 5)
+    const distance = world.debugCamDistance ?? (driving ? 11 : 5)
     const { focus } = world
-    lookAt.set(focus.x, focus.y + (driving ? 1.2 : 0.8), focus.z)
+    lookAt.set(focus.x, focus.y + (driving ? 1.5 : 0.8), focus.z)
 
     // While driving, swing back behind the car once the mouse has been idle.
     // On foot, do the same more gently after a few seconds.
     const idle = performance.now() - world.lastMouseMove
     if ((driving && idle > 1200) || (!driving && idle > 4000 && game.phase === 'playing')) {
       const behind = world.heading + Math.PI
-      const rate = driving ? 2.5 : 0.9
+      const rate = driving ? 3.2 : 0.9
       world.cameraYaw += wrapAngle(behind - world.cameraYaw) * Math.min(1, dt * rate)
       world.cameraPitch += ((driving ? 0.3 : 0.35) - world.cameraPitch) * Math.min(1, dt * 2)
     }
@@ -118,7 +118,7 @@ export default function CameraRig() {
       return
     }
 
-    camera.position.lerp(desired, 1 - Math.exp(-12 * dt))
+    camera.position.lerp(desired, 1 - Math.exp(-(driving ? 8 : 12) * dt))
     camera.lookAt(lookAt)
 
     // Screen shake from hits, crashes and explosions.
