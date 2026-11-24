@@ -135,6 +135,22 @@ const isJunction = (axis, line, k) => {
 }
 
 // Center-line dashes along every stretch of road that exists, bridges included.
+// Zebra crossings at full four-way intersections, using lightweight instanced strips.
+function crosswalks() {
+  const strips = []
+  for (let i = 1; i < GX; i++) for (let j = 1; j < GZ; j++) {
+    if (!isJunction('x', j, i) || !isJunction('z', i, j)) continue
+    if (!segmentValid('x', j, i - 1) || !segmentValid('x', j, i) || !segmentValid('z', i - 1, j) || !segmentValid('z', i, j)) continue
+    const x = roadX(i), z = roadZ(j)
+    for (let n = 0; n < 6; n++) {
+      const offset = -4.5 + n * 1.8
+      strips.push({ x: x + offset, z: z - ROAD / 2 + 1.1, w: 0.9, d: ROAD - 2.2 })
+      strips.push({ x: x - ROAD / 2 + 1.1, z: z + offset, w: ROAD - 2.2, d: 0.9 })
+    }
+  }
+  return strips
+}
+
 function laneDashes() {
   const dashes = []
   for (const axis of ['x', 'z']) {
@@ -162,7 +178,7 @@ for (const b of city.buildings) BUILDING_GROUPS[b.facade ?? (b.landmark ? 'civic
 export default function City() {
   const buildingMaterial = useMemo(createBuildingMaterial, [])
   const facades = useMemo(() => ({ low: createFacadeMaterial('low'), mid: createFacadeMaterial('mid'), tower: createFacadeMaterial('tower') }), [])
-  const dashes = useMemo(laneDashes, [])
+  const dashes = useMemo(laneDashes, [])\n  const crossings = useMemo(crosswalks, [])
 
   useFrame(() => lampGlow.color.lerpColors(dayLamp, nightLamp, nightUniform.value))
 
@@ -216,6 +232,17 @@ export default function City() {
           o.scale.set(2, 1, 0.25)
         }}
         colors={() => '#e8c547'}
+      />
+
+      {/* Zebra crossings: bright pedestrian stripes at selected intersections */}
+      <Instances
+        items={crossings}
+        castShadow={false}
+        transform={(o, s) => {
+          o.position.set(s.x, 0.035, s.z)
+          o.scale.set(s.w, 1, s.d)
+        }}
+        colors={() => '#d8d8d5'}
       />
 
       {/* Buildings (each kind with its own facade) and rooftop water tanks */}
