@@ -115,7 +115,7 @@ const lampGeometry = new BoxGeometry(0.2, 6, 0.2).translate(0, 3, 0)
 const lampHeadGeometry = new BoxGeometry(0.5, 0.2, 1.4).translate(0, 6, 0.5)
 const tankGeometry = new CylinderGeometry(0.7, 0.7, 1.5, 10).translate(0, 0.75, 0)
 const roofGeometry = gableRoof()
-const roundTrunk = new CylinderGeometry(0.18, 0.26, 3.4, 6).translate(0, 1.7, 0)
+const roundTrunk = new CylinderGeometry(0.18, 0.26, 3.4, 6).translate(0, 1.7, 0)\nconst bollardGeometry = new CylinderGeometry(0.22, 0.28, 0.85, 6).translate(0, 0.425, 0)\nconst bollards = city.lamps.filter((_, i) => i % 3 === 0)
 const LEAVES = ['#5fa64a', '#4e9a48', '#76b552', '#3f8a46']
 
 // Every other tree is a palm; the rest are round, puffy shade trees.
@@ -323,6 +323,15 @@ export default function City() {
           o.scale.setScalar(2.4)
         }}
         colors={(_, i) => LEAVES[(i + 1) % LEAVES.length]}
+      />
+
+      {/* Small roadside bollards add street detail without expensive individual meshes */}
+      <Instances
+        items={bollards}
+        geometry={bollardGeometry}
+        castShadow={false}
+        transform={(o, l) => o.position.set(l.x + 1.5, 0, l.z + 1.5)}
+        colors={() => '#c8a45c'}
       />
 
       {/* Street lamps; the heads glow at night */}
