@@ -238,10 +238,18 @@ export default function Car() {
         <group key={`${type}${i}`} position={w} ref={(el) => (wheelSteer.current[i] = front ? el : null)}>
           <mesh ref={(el) => (wheelSpin.current[i] = el)}>
             <Wheel r={def.wheels.r} />
-            {/* A spoke, so you can see the wheels turn */}
+            {/* Subtle cross-spokes and hub give the wheels a more finished rim. */}
             <mesh rotation-z={Math.PI / 2}>
               <boxGeometry args={[0.31, def.wheels.r * 0.9, 0.1]} />
               <meshToonMaterial gradientMap={toonRamp} color="#8a8f96" />
+            </mesh>
+            <mesh rotation-z={0}>
+              <boxGeometry args={[0.31, def.wheels.r * 0.9, 0.08]} />
+              <meshToonMaterial gradientMap={toonRamp} color="#aeb4bb" />
+            </mesh>
+            <mesh>
+              <cylinderGeometry args={[0.11, 0.11, 0.34, 10]} />
+              <meshToonMaterial gradientMap={toonRamp} color="#c9ccd1" />
             </mesh>
           </mesh>
         </group>
