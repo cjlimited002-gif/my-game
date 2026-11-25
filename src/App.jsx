@@ -29,6 +29,7 @@ import Interiors from './game/Interiors'
 import Hud from './game/Hud'
 import Birds from './game/Birds'
 import Dogs from './game/Dogs'
+import StreetAnimals from './game/StreetAnimals'
 import Rain from './game/Rain'
 import Races from './game/Races'
 import { keyMap } from './game/controls'
@@ -99,6 +100,7 @@ export default function App() {
             <Traffic />
             <Pedestrians />
             <Dogs />
+            <StreetAnimals />
             <NamedNpcs />
             <Races />
             <Player />
